@@ -1,0 +1,40 @@
+[alias]
+    co = checkout
+    ci = commit
+    uncommit = ! git reset --soft HEAD^
+    uci = ! git uncommit
+    st = status
+    br = branch
+    hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+    type = cat-file -t
+    dump = cat-file -p
+    alog = log --all --graph --date-order --decorate --pretty='format:%C(yellow)%h%Creset%C(red)%d%Creset %C(cyan)%an%Creset %ci %s'
+    flog = log --pretty=format:"%C(yellow)%h%C(red)%d\\ %Creset%s%C(blue)\\ [%cn]" --decorate --numstat
+    clog = log -u
+    squash = "!f(){ git reset --soft HEAD~${1} && git commit --edit -m\"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; };f"
+    sq = ! git squash
+    lines = ! git ls-files | xargs wc -l 2>/dev/null
+    li = ! git lines
+    todo = ! git grep -n TODO:
+    td = ! git todo
+    prune-old = ! git remote prune origin
+    pru = ! git prune-old
+#    brclean = "!f(){ git branch --merged | egrep -v '(^\*|master|dev)' | xargs git branch -d $1; };f"
+ #   brc = ! git brclean
+[user]
+    name = Jonathan Skrip
+    email = <email>
+[core]
+    autocrlf = input
+    safecrlf = warn
+    editor = vim
+    text = auto
+[credential]
+    # helper = osxkeychain
+    # helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
+[color]
+	ui = true
+[push]
+	default = simple
+
+	

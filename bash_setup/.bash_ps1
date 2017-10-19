@@ -1,0 +1,43 @@
+# Command line prompt shenanigans
+
+function success_color {
+    if [[ $? -eq 0 ]]
+        then
+        echo -e '\033[0;32m'
+    else
+        echo -e '\033[0;31m'
+    fi
+}
+
+function git_branch {
+    if git rev-parse --git-dir >/dev/null 2>&1
+        then echo -e "" [$(git branch 2>/dev/null| sed -n '/^\*/s/^\* //p')]
+    else
+        echo ""
+    fi
+}
+
+function git_color {
+    local STATUS=`git status 2>&1`
+    if [[ "$STATUS" == *'Not a git repository'* ]]
+        then echo ""
+    else
+        # directory -> old git syntax, tree -> new git syntax
+        if [[ "$STATUS" != *'working directory clean'* ]] && [[ "$STATUS" != *'working tree clean'* ]]
+            then
+            # red if need to commit
+            echo -e '\033[0;31m'
+        else
+            if [[ "$STATUS" == *'Your branch is ahead'* ]]
+                then
+            # yellow if need to push
+            echo -e '\033[0;33m'
+        else
+            # else green
+            echo -e '\033[0;32m'
+        fi
+    fi
+fi
+}
+
+export PS1='\[$(success_color)\]◉ \[\033[0;36m\][\d \@] \[\033[0;32m\]\h \[\033[0;37m\]\W/\[$(git_color)\]$(git_branch) \[\033[0;36m\]>>> \[\033[m\]'

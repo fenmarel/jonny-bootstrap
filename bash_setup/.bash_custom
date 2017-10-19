@@ -1,0 +1,20 @@
+# Customizations and whatnot
+
+# Search by autocomplete command history
+if [[ $- == *i* ]]; then
+    # use up/down arrows
+    # bind '"\e[A": history-search-backward'
+    # bind '"\e[B": history-search-forward'
+
+    # use pgup/pgdown
+    bind '"\e[5~": history-search-backward'
+    bind '"\e[6~": history-search-forward'
+fi
+
+# alias the python json module to 'json'
+alias json="python -m json.tool"
+
+# git completion for OSX (brew install git && brew install bash-completion)
+if [ -f `brew --prefix`/etc/bash_completion ]; then
+    [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+fi
